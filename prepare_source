@@ -6,5 +6,6 @@ tar -f "$dir/orig.tar" --delete _/vendor --delete _/DCO
 apt_src --ignore-orig ignition
 
 apply_patches
-version="2.19.0-0"
+import_upstream_patches extra-patches
+version="2.19.0-1"
 message="Update to 2.19.0"
