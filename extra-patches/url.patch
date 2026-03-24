@@ -1,0 +1,15 @@
+diff --git a/internal/resource/url.go b/internal/resource/url.go
+index 18b6d746..6927e408 100644
+--- a/internal/resource/url.go
++++ b/internal/resource/url.go
+@@ -428,8 +428,8 @@ func (f *Fetcher) fetchFromGCS(u url.URL, dest io.Writer, opts FetchOptions) err
+ 		if metadata.OnGCE() {
+ 			// check whether the VM is associated with a service
+ 			// account
+-			if _, err := metadata.ScopesWithContext(ctx, ""); err == nil {
+-				id, _ := metadata.ProjectIDWithContext(ctx)
++			if _, err := metadata.Scopes(""); err == nil {
++				id, _ := metadata.ProjectID()
+ 				creds := &google.Credentials{
+ 					ProjectID:   id,
+ 					TokenSource: google.ComputeTokenSource("", storage.ScopeReadOnly),
