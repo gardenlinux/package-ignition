@@ -1,0 +1,42 @@
+diff --git a/internal/distro/distro.go b/internal/distro/distro.go
+index 20190903..19f9d497 100644
+--- a/internal/distro/distro.go
++++ b/internal/distro/distro.go
+@@ -16,6 +16,7 @@ package distro
+ 
+ import (
+ 	"fmt"
++	"github.com/opencontainers/selinux/go-selinux"
+ 	"os"
+ )
+ 
+@@ -70,7 +71,7 @@ var (
+ 	kargsCmd = "ignition-kargs-helper"
+ 
+ 	// Flags
+-	selinuxRelabel  = "true"
++	selinuxEnabled  *bool
+ 	blackboxTesting = "false"
+ 	// writeAuthorizedKeysFragment indicates whether to write SSH keys
+ 	// specified in the Ignition config as a fragment to
+@@ -127,7 +128,7 @@ func LuksRealRootKeyFilePath() string   { return luksRealRootKeyFilePath }
+ func ResultFilePath() string            { return resultFilePath }
+ func LuksRealVolumeKeyFilePath() string { return luksCexSecureKeyRepo }
+ 
+-func SelinuxRelabel() bool  { return bakedStringToBool(selinuxRelabel) && !BlackboxTesting() }
++func SelinuxRelabel() bool  { return selinuxRelabelNeed() && !BlackboxTesting() }
+ func BlackboxTesting() bool { return bakedStringToBool(blackboxTesting) }
+ func WriteAuthorizedKeysFragment() bool {
+ 	return bakedStringToBool(fromEnv("WRITE_AUTHORIZED_KEYS_FRAGMENT", writeAuthorizedKeysFragment))
+@@ -153,3 +154,11 @@ func bakedStringToBool(s string) bool {
+ 		panic(fmt.Sprintf("value '%s' cannot be interpreted as a boolean", s))
+ 	}
+ }
++
++func selinuxRelabelNeed() bool {
++	if selinuxEnabled == nil {
++		selinuxEnabled = new(bool)
++		*selinuxEnabled = selinux.GetEnabled()
++	}
++	return *selinuxEnabled
++}
