@@ -1,1 +1,3 @@
-append-uuid-to-config-url.patch
+gomodsum.patch
+selinux.patch
+uuid.patch
