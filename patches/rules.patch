@@ -1,0 +1,13 @@
+diff --git a/debian/rules b/debian/rules
+index 4b00c99a..d3e5e06d 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -2,6 +2,8 @@
+ 
+ include /usr/share/dpkg/default.mk
+ 
++export DH_GOLANG_INSTALL_EXTRA := vendor/google.golang.org/protobuf/internal/editiondefaults/editions_defaults.binpb
++
+ export DH_GOLANG_BUILDPKG := \
+     github.com/coreos/ignition/internal \
+     github.com/coreos/ignition/validate

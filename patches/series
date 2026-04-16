@@ -1,1 +1,3 @@
-build-deps.patch
+control.patch
+copyright.patch
+rules.patch

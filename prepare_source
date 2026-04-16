@@ -1,11 +1,14 @@
 git_src --branch v2.26.0 https://github.com/coreos/ignition.git
-rm -rf "$dir/src/vendor" "$dir/src/DCO"
+rm -rf "$dir/src/DCO"
 # exclude what debian excludes
-tar -f "$dir/orig.tar" --delete _/vendor --delete _/DCO
+tar -f "$dir/orig.tar" --delete --delete _/DCO
 
 apt_src --ignore-orig ignition
 
 apply_patches
 import_upstream_patches extra-patches
-version="2.26.0-1"
+
+version="2.26.0-0"
 message="Update to 2.26.0"
+
+version_suffix="gl0~bp1877"
